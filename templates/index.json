@@ -1,0 +1,73 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "settings": {
+        "badge_text": "NEW DROPS WEEKLY",
+        "heading": "The Kawaii",
+        "heading_accent": "Plug",
+        "subheading": "Sanrio & Pokémon collectibles curated for Gen Z. Limited drops, authentic vibes.",
+        "cta_text": "Shop Now",
+        "cta_link": "/collections/all"
+      }
+    },
+    "featured-collection": {
+      "type": "featured-collection",
+      "settings": {
+        "title": "Trending Now",
+        "subtitle": "The collectibles everyone's obsessing over this week",
+        "products_to_show": 8,
+        "show_view_all": true
+      }
+    },
+    "collection-list": {
+      "type": "collection-list",
+      "settings": {
+        "title": "Shop by Collection",
+        "subtitle": "Find your favorites"
+      },
+      "blocks": {
+        "sanrio": {
+          "type": "collection",
+          "settings": {
+            "title": "Sanrio",
+            "bg_color": "#E85D75",
+            "bg_color_end": "#FF8FA3"
+          }
+        },
+        "pokemon": {
+          "type": "collection",
+          "settings": {
+            "title": "Pokémon",
+            "bg_color": "#6B5B95",
+            "bg_color_end": "#00D4FF"
+          }
+        }
+      },
+      "block_order": ["sanrio", "pokemon"]
+    },
+    "testimonials": {
+      "type": "testimonials",
+      "settings": {
+        "title": "What Collectors Say",
+        "subtitle": "Join 500+ happy collectors"
+      },
+      "blocks": {
+        "t1": { "type": "testimonial", "settings": { "quote": "I love these so much! Exactly what I needed for my collection.", "author": "Sarah, Los Angeles" }},
+        "t2": { "type": "testimonial", "settings": { "quote": "The cutest keychains ever. My friends are so jealous!", "author": "Mia, New York" }},
+        "t3": { "type": "testimonial", "settings": { "quote": "Fast shipping and authentic Sanrio products. 10/10 would recommend.", "author": "Jayden, Miami" }}
+      },
+      "block_order": ["t1", "t2", "t3"]
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {
+        "title": "Get Early Access to New Drops",
+        "subtitle": "Be the first to know when new collectibles drop. No spam, just kawaii.",
+        "button_text": "Join the Club",
+        "incentive_text": "🎁 Get 10% off your first order when you sign up!"
+      }
+    }
+  },
+  "order": ["hero", "featured-collection", "collection-list", "testimonials", "newsletter"]
+}

@@ -1,0 +1,64 @@
+<section class="newsletter-section">
+  <div class="newsletter-inner">
+    <h2 class="newsletter-title">{{ section.settings.title }}</h2>
+    <p class="newsletter-subtitle">{{ section.settings.subtitle }}</p>
+
+    {% form 'customer' %}
+      {% if form.posted_successfully? %}
+        <p style="color: var(--color-primary); font-weight: 700;">You're in! Check your email for your 10% off code.</p>
+      {% else %}
+        <div class="newsletter-form">
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          <input type="email"
+                 name="contact[email]"
+                 placeholder="your@email.com"
+                 required
+                 aria-label="Email address">
+          <button type="submit">{{ section.settings.button_text }}</button>
+        </div>
+      {% endif %}
+      {% if form.errors %}
+        <p style="color: var(--color-primary); margin-top: 8px; font-size: 0.85rem;">{{ form.errors | default_errors }}</p>
+      {% endif %}
+    {% endform %}
+
+    <p class="newsletter-incentive">{{ section.settings.incentive_text }}</p>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Newsletter signup",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Get Early Access to New Drops"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subheading",
+      "default": "Be the first to know when new collectibles drop. No spam, just kawaii."
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Join the Club"
+    },
+    {
+      "type": "text",
+      "id": "incentive_text",
+      "label": "Incentive text",
+      "default": "🎁 Get 10% off your first order when you sign up!"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Newsletter signup"
+    }
+  ]
+}
+{% endschema %}

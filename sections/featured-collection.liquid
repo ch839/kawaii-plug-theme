@@ -1,0 +1,112 @@
+{%- assign collection = collections[section.settings.collection] -%}
+
+<section class="section">
+  <div class="section-header">
+    <h2 class="section-title">{{ section.settings.title }}</h2>
+    <p class="section-subtitle">{{ section.settings.subtitle }}</p>
+  </div>
+
+  <div class="product-grid container">
+    {%- for product in collection.products limit: section.settings.products_to_show -%}
+      <div class="product-card">
+        <a href="{{ product.url }}">
+          <div class="product-card-image">
+            {% if product.tags contains 'limited edition' %}
+              <span class="product-badge badge-limited">Limited</span>
+            {% elsif product.tags contains 'new' %}
+              <span class="product-badge badge-new">New</span>
+            {% elsif product.compare_at_price > product.price %}
+              <span class="product-badge badge-sale">Sale</span>
+            {% endif %}
+
+            {% if product.featured_image %}
+              <img src="{{ product.featured_image | image_url: width: 480 }}"
+                   alt="{{ product.featured_image.alt | escape }}"
+                   loading="lazy"
+                   width="480"
+                   height="480">
+            {% else %}
+              {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+            {% endif %}
+          </div>
+
+          <div class="product-card-info">
+            <h3 class="product-card-title">{{ product.title }}</h3>
+            <div class="product-card-price">
+              <span class="price-sale">{{ product.price | money }}</span>
+              {% if product.compare_at_price > product.price %}
+                <span class="price-compare">{{ product.compare_at_price | money }}</span>
+                {%- assign savings = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price -%}
+                <span class="price-savings">{{ savings }}% off</span>
+              {% endif %}
+            </div>
+          </div>
+        </a>
+
+        <div class="product-card-info">
+          <form action="/cart/add" method="post">
+            <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+            <button type="submit" class="product-card-btn">
+              {% if product.available %}
+                Add to Cart
+              {% else %}
+                Sold Out
+              {% endif %}
+            </button>
+          </form>
+        </div>
+      </div>
+    {%- endfor -%}
+  </div>
+
+  {% if section.settings.show_view_all %}
+    <div class="text-center mt-3">
+      <a href="{{ collection.url }}" class="hero-cta" style="font-size: 0.9rem; padding: 12px 32px;">View All {{ collection.title }}</a>
+    </div>
+  {% endif %}
+</section>
+
+{% schema %}
+{
+  "name": "Featured collection",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Trending Now"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subheading",
+      "default": "The collectibles everyone's obsessing over this week"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "default": 8,
+      "label": "Products to show"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "label": "Show 'View all' button",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured collection"
+    }
+  ]
+}
+{% endschema %}

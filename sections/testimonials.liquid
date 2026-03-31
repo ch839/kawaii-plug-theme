@@ -1,0 +1,66 @@
+<section class="testimonials-section">
+  <div class="section-header">
+    <h2 class="section-title">{{ section.settings.title }}</h2>
+    <p class="section-subtitle">{{ section.settings.subtitle }}</p>
+  </div>
+
+  <div class="testimonials-grid">
+    {% for block in section.blocks %}
+      <div class="testimonial-card" {{ block.shopify_attributes }}>
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">"{{ block.settings.quote }}"</p>
+        <p class="testimonial-author">— {{ block.settings.author }}</p>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Testimonials",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "What Collectors Say"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subheading",
+      "default": "Join 500+ happy collectors"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        {
+          "type": "text",
+          "id": "quote",
+          "label": "Quote",
+          "default": "I love these so much! Exactly what I needed for my collection."
+        },
+        {
+          "type": "text",
+          "id": "author",
+          "label": "Author",
+          "default": "Sarah, Los Angeles"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonials",
+      "blocks": [
+        { "type": "testimonial", "settings": { "quote": "I love these so much! Exactly what I needed for my collection.", "author": "Sarah, Los Angeles" }},
+        { "type": "testimonial", "settings": { "quote": "The cutest keychains ever. My friends are so jealous!", "author": "Mia, New York" }},
+        { "type": "testimonial", "settings": { "quote": "Fast shipping and authentic Sanrio products. 10/10 would recommend.", "author": "Jayden, Miami" }}
+      ]
+    }
+  ]
+}
+{% endschema %}

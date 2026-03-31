@@ -1,0 +1,26 @@
+{
+  "current": {
+    "color_primary": "#E85D75",
+    "color_secondary": "#6B5B95",
+    "color_background": "#FFF9FB",
+    "color_accent": "#FFE66D",
+    "color_text": "#333333",
+    "sections": {
+      "header": {
+        "type": "header",
+        "settings": {}
+      },
+      "footer": {
+        "type": "footer",
+        "settings": {}
+      }
+    },
+    "content_for_index": [
+      "hero",
+      "featured-collection",
+      "collection-list",
+      "testimonials",
+      "newsletter"
+    ]
+  }
+}

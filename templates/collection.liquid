@@ -1,0 +1,69 @@
+<div class="collection-page">
+  <div class="collection-header">
+    <h1 class="collection-title">{{ collection.title }}</h1>
+    {% if collection.description != blank %}
+      <p class="collection-desc">{{ collection.description }}</p>
+    {% endif %}
+  </div>
+
+  <div class="product-grid">
+    {% for product in collection.products %}
+      <div class="product-card">
+        <a href="{{ product.url }}">
+          <div class="product-card-image">
+            {% if product.tags contains 'limited edition' %}
+              <span class="product-badge badge-limited">Limited</span>
+            {% elsif product.tags contains 'new' %}
+              <span class="product-badge badge-new">New</span>
+            {% elsif product.compare_at_price > product.price %}
+              <span class="product-badge badge-sale">Sale</span>
+            {% endif %}
+
+            {% if product.featured_image %}
+              <img src="{{ product.featured_image | image_url: width: 480 }}"
+                   alt="{{ product.featured_image.alt | escape }}"
+                   loading="lazy"
+                   width="480" height="480">
+            {% else %}
+              {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+            {% endif %}
+          </div>
+
+          <div class="product-card-info">
+            <h3 class="product-card-title">{{ product.title }}</h3>
+            <div class="product-card-price">
+              <span class="price-sale">{{ product.price | money }}</span>
+              {% if product.compare_at_price > product.price %}
+                <span class="price-compare">{{ product.compare_at_price | money }}</span>
+                {%- assign savings = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price -%}
+                <span class="price-savings">{{ savings }}% off</span>
+              {% endif %}
+            </div>
+          </div>
+        </a>
+
+        <div class="product-card-info">
+          <form action="/cart/add" method="post">
+            <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+            <button type="submit" class="product-card-btn">
+              {% if product.available %}Add to Cart{% else %}Sold Out{% endif %}
+            </button>
+          </form>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  {% if collection.products.size == 0 %}
+    <div class="text-center" style="padding: 60px 20px;">
+      <h2 style="color: var(--color-secondary);">Coming Soon!</h2>
+      <p style="color: #888;">New products are dropping soon. Sign up to be notified!</p>
+    </div>
+  {% endif %}
+
+  {% if paginate.pages > 1 %}
+    <div class="text-center mt-3">
+      {{ paginate | default_pagination }}
+    </div>
+  {% endif %}
+</div>

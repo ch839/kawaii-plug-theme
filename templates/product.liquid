@@ -1,0 +1,88 @@
+<div class="product-page">
+  <div class="product-layout">
+    <div class="product-gallery">
+      <div class="product-gallery-main">
+        {% if product.featured_image %}
+          <img id="main-product-image"
+               src="{{ product.featured_image | image_url: width: 800 }}"
+               alt="{{ product.featured_image.alt | escape }}"
+               width="800"
+               height="800">
+        {% else %}
+          {{ 'product-1' | placeholder_svg_tag }}
+        {% endif %}
+      </div>
+
+      {% if product.images.size > 1 %}
+        <div class="product-gallery-thumbs">
+          {% for image in product.images %}
+            <img src="{{ image | image_url: width: 150 }}"
+                 alt="{{ image.alt | escape }}"
+                 onclick="document.getElementById('main-product-image').src='{{ image | image_url: width: 800 }}'"
+                 class="{% if forloop.first %}active{% endif %}"
+                 width="72"
+                 height="72">
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="product-details">
+      <h1 class="product-title">{{ product.title }}</h1>
+
+      <div class="product-price-wrap">
+        <span class="product-price">{{ product.price | money }}</span>
+        {% if product.compare_at_price > product.price %}
+          <span class="product-compare-price">{{ product.compare_at_price | money }}</span>
+          {%- assign savings = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price -%}
+          <span class="product-savings-badge">Save {{ savings }}%</span>
+        {% endif %}
+      </div>
+
+      <div class="product-description">
+        {{ product.description }}
+      </div>
+
+      {% form 'product', product %}
+        {% if product.variants.size > 1 %}
+          {% for option in product.options_with_values %}
+            <label style="font-weight: 600; display: block; margin-bottom: 8px;">{{ option.name }}</label>
+            <select name="id" style="width: 100%; padding: 12px; border: 2px solid #e0d5ea; border-radius: 10px; margin-bottom: 16px; font-family: 'Poppins', sans-serif;">
+              {% for variant in product.variants %}
+                <option value="{{ variant.id }}" {% unless variant.available %}disabled{% endunless %}>
+                  {{ variant.title }} — {{ variant.price | money }}
+                  {% unless variant.available %} (Sold Out){% endunless %}
+                </option>
+              {% endfor %}
+            </select>
+          {% endfor %}
+        {% else %}
+          <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+        {% endif %}
+
+        <button type="submit" class="add-to-cart-btn" {% unless product.available %}disabled{% endunless %}>
+          {% if product.available %}
+            Add to Cart
+          {% else %}
+            Sold Out
+          {% endif %}
+        </button>
+      {% endform %}
+
+      <div class="product-trust-signals">
+        <div class="product-trust-item">
+          <strong>Authentic</strong>
+          Official product
+        </div>
+        <div class="product-trust-item">
+          <strong>Fast Ship</strong>
+          3-7 business days
+        </div>
+        <div class="product-trust-item">
+          <strong>Guarantee</strong>
+          30-day returns
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
